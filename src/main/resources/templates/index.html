@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymyleaf.org">
+
+<body>
+
+	<form action="login" method="post">
+		<label for="todaysDate">Todays Date :</label>
+		<input type="date" id="todaysDate" name="todaysDate"><br><br>
+		<label for="fromDate">Day 1 :</label>
+		<input type="date" id="fromDate" name="fromDate"><br><br>
+		<label for="toDate">Day 2 :</label>
+		<input type="date" id="toDate" name="toDate"><br><br>
+
+		<label for="niftyFutExpiryDate">Nifty Future Expiry Date :</label>
+		<input type="date" id="niftyFutExpiryDate" name="niftyFutExpiryDate"><br><br>
+		<label for="bNFutExpiryDate">Bank Nifty Future Expiry Date :</label>
+		<input type="date" id="bNFutExpiryDate" name="bNFutExpiryDate"><br><br>
+
+		<p><label for="w3review"></label>Review of W3Schools:</p>
+		<textarea id="w3review" name="w3review" rows="4" cols="50" th:text="${userInput}"></textarea>
+		<br>
+		<input type="submit" value="Submit">
+	</form>
+
+
+</body>
+
+</html>
