@@ -25,7 +25,6 @@ public class BankNiftyOptionSelling {
 				CommonConstants.BANKNIFTY, CommonConstants.NSE, "", "", "", "");
 
 		BankNiftyOptionSellingCalculations(breezeConnect, nseEntity, strFromDate, strToDate, bNSellingExpiryDate);
-		System.out.println("-----------------------------");
 	}
 
 	private void BankNiftyOptionSellingCalculations(BreezeConnect breezeConnect, NseEntity nseEntity,
@@ -77,13 +76,6 @@ public class BankNiftyOptionSelling {
 					double two2DLL = (obito.get(0).getLow() < obito.get(1).getLow()) ? obito.get(0).getLow()
 							: obito.get(1).getLow();
 
-					// System.out.println("Expiry : " + bNSellingExpiryDate[i] + " | Strike price: "
-					// + startCallStrike
-					// + " | Minimum Premium: " + Math.round(minimumPremium) + " | 2DLL: " +
-					// Math.round(two2DLL)
-					// + " | " + obito.get(0).getLow() + " | " + obito.get(1).getLow());
-					// System.out.println(obito.get(1).openInterest);
-
 					if (two2DLL > minimumPremium) {
 						double two2DHH = (obito.get(0).getHigh() > obito.get(1).getHigh()) ? obito.get(0).getHigh()
 								: obito.get(1).getHigh();
@@ -95,7 +87,7 @@ public class BankNiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
-						System.out.println("\n\nBANK NIFTY CALL OPTION SELLING");
+						System.out.println("\n\nOPTION SELLING - BANK NIFTY CE");
 						System.out.println("BANK NIFTY CE :" + startCallStrike);
 						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
 						System.out.println("Entry    : " + Math.round(entry));
@@ -116,7 +108,7 @@ public class BankNiftyOptionSelling {
 				startCallStrike = startCallStrike - 100;
 			}
 		}
-		System.out.println("Not Found : NO NIFTY CE Call Today");
+		System.out.println("Not Found : NO BANK NIFTY CE Call Today");
 		return "";
 	}
 
@@ -136,19 +128,11 @@ public class BankNiftyOptionSelling {
 						bNSellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.PUT,
 						String.valueOf(startPutStrike));
 
-				// System.out.println(nseEntity);
-
 				if (nseEntity != null && nseEntity.getObito() != null && nseEntity.getObito().size() == 2) {
 					List<NseValues> obito = nseEntity.getObito();
 
 					double two2DLL = (obito.get(0).getLow() < obito.get(1).getLow()) ? obito.get(0).getLow()
 							: obito.get(1).getLow();
-
-					// System.out.println("Expiry : " + bNSellingExpiryDate[i] + " | Strike price: "
-					// + startPutStrike
-					// + " | Minimum Premium: " + Math.round(minimumPremium) + " | 2DLL: " +
-					// Math.round(two2DLL)
-					// + " | " + obito.get(0).getLow() + " | " + obito.get(1).getLow());
 
 					if (two2DLL > minimumPremium) {
 
@@ -162,7 +146,7 @@ public class BankNiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
-						System.out.println("\n\nBANK NIFTY PUT OPTION SELLING");
+						System.out.println("\n\nOPTION SELLING - BANK NIFTY PE");
 						System.out.println("BANK NIFTY PE : " + startPutStrike);
 						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
 						System.out.println("Entry    : " + Math.round(entry));
@@ -170,19 +154,212 @@ public class BankNiftyOptionSelling {
 						System.out.println("Stoploss : " + Math.round(stoploss));
 						System.out.println("MSL      : " + Math.round(msl));
 						System.out.println("TSL      : " + Math.round(tsl));
-						// System.out.println(obito.get(0).getLow() + " " + obito.get(1).getLow() + " "
-						// + (putEndStrike - 900) + " " + minimumPremium);
-
 						return "";
 					}
 				} else {
-					System.out.println("NO Data found for BANK NIFTY " + startPutStrike + " CE | Expiry "
+					System.out.println("NO Data found for BANK NIFTY " + startPutStrike + " PE | Expiry "
 							+ bNSellingExpiryDate[i]);
 				}
 				startPutStrike = startPutStrike + 100;
 			}
 		}
-		System.out.println("Not Found : NO NIFTY PE Call Today");
+		System.out.println("Not Found : NO BANK NIFTY PE Call Today");
+		return "";
+	}
+
+//################################################## BANK NIFTY GAP UP/DOWN ##########################################################
+
+	public void getBnGapUpDown(BreezeConnect breezeConnect, String strTodaysDate, String fromDate, String toDate,
+			String[] bNSellingExpiryDate) throws JsonMappingException, JsonProcessingException {
+
+		String strFromDate = fromDate + "T" + CommonConstants.fromDateISOIndex;
+		String strToDate = toDate + "T" + CommonConstants.toDateISOIndex;
+
+		NseEntity nseEntity = breezeConnect.getHistoricalData(CommonConstants.fiveMinute, strTodaysDate, strTodaysDate,
+				CommonConstants.BANKNIFTY, CommonConstants.NSE, "", "", "", "");
+
+		BankNiftyOptionSellingGapUpDownCalculations(breezeConnect, nseEntity, strTodaysDate, strFromDate, strToDate,
+				bNSellingExpiryDate);
+	}
+
+	private void BankNiftyOptionSellingGapUpDownCalculations(BreezeConnect breezeConnect, NseEntity nseEntity,
+			String strTodaysDate, String strFromDate, String strToDate, String[] bNSellingExpiryDate)
+			throws JsonMappingException, JsonProcessingException {
+
+		if (nseEntity != null && nseEntity.getObito() != null) {
+			List<NseValues> obito = nseEntity.getObito();
+			double high = obito.get(0).getHigh();
+			double low = obito.get(0).getLow();
+
+			if (high < obito.get(1).getHigh()) {
+				high = obito.get(1).getHigh();
+			}
+			if (high < obito.get(2).getHigh()) {
+				high = obito.get(2).getHigh();
+			}
+
+			if (low < obito.get(1).getLow()) {
+				low = obito.get(1).getLow();
+			}
+			if (low < obito.get(2).getLow()) {
+				low = obito.get(2).getLow();
+			}
+			int callBuffer = (int) (low * CommonConstants.BankNiftyFutSellEntry);
+			int putBuffer = (int) (high * CommonConstants.BankNiftyFutBuyEntry);
+
+			int callEndStrike = (callBuffer / 100) * 100; // Round Down
+			int putEndStrike = ((putBuffer / 100) + 1) * 100; // Round Up
+
+			getBankNiftySellingGapDownCallData(breezeConnect, callEndStrike, strTodaysDate, strFromDate, strToDate,
+					bNSellingExpiryDate);
+			getBankNiftySellingGapUpPutData(breezeConnect, putEndStrike, strTodaysDate, strFromDate, strToDate,
+					bNSellingExpiryDate);
+
+		} else {
+			System.out.println("Incorrect From and TO date. Please check.");
+		}
+
+	}
+
+	private String getBankNiftySellingGapUpPutData(BreezeConnect breezeConnect, int putEndStrike, String strTodaysDate,
+			String strFromDate, String strToDate, String[] bNSellingExpiryDate)
+			throws JsonMappingException, JsonProcessingException {
+
+		for (int i = 0; i <= 3; i++) {
+
+			int startPutStrike = putEndStrike - 900;
+
+			for (int strikeIncrement = 1; strikeIncrement <= 10; strikeIncrement++) {
+
+				double minimumPremium = startPutStrike * CommonConstants.BankNiftyMinimumPremium;
+
+				NseEntity nseEntity = breezeConnect.getHistoricalData(CommonConstants.fiveMinute, strTodaysDate,
+						strTodaysDate, CommonConstants.BANKNIFTY, CommonConstants.NFO, CommonConstants.OPTIONS,
+						bNSellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.PUT,
+						String.valueOf(startPutStrike));
+
+				// System.out.println(nseEntity);
+
+				if (nseEntity != null && nseEntity.getObito() != null) {
+					List<NseValues> obito = nseEntity.getObito();
+
+					double low = obito.get(0).getLow();
+
+					if (low > obito.get(1).getLow()) {
+						low = obito.get(1).getLow();
+					}
+					if (low > obito.get(2).getLow()) {
+						low = obito.get(2).getLow();
+					}
+
+					if (low > minimumPremium) {
+
+						NseEntity nseEntity1 = breezeConnect.getHistoricalData(CommonConstants.DAY, strFromDate,
+								strToDate, CommonConstants.BANKNIFTY, CommonConstants.NFO, CommonConstants.OPTIONS,
+								bNSellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.PUT,
+								String.valueOf(startPutStrike));
+
+						List<NseValues> pain = nseEntity1.getObito();
+
+						double two2DHH = (pain.get(0).getHigh() > pain.get(1).getHigh()) ? pain.get(0).getHigh()
+								: pain.get(1).getHigh();
+
+						double entry = low * CommonConstants.BankNiftyEntry;
+						double target = entry * CommonConstants.BankNiftyTarget;
+						double msl = entry * CommonConstants.BankNiftyMSL;
+						double tsl = two2DHH * CommonConstants.BankNiftyTSL;
+
+						double stoploss = (msl < tsl) ? msl : tsl;
+
+						System.out.println("\n\nOPTION SELLING - BANK NIFTY PE GAP UP");
+						System.out.println("BANK NIFTY PE : " + startPutStrike);
+						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
+						System.out.println("Entry    : " + entry);
+						System.out.println("Target   : " + target);
+						System.out.println("Stoploss : " + stoploss);
+						System.out.println("MSL      : " + msl);
+						System.out.println("TSL      : " + tsl);
+
+						return "";
+					}
+				} else {
+					System.out.println("NO Data found for BANK NIFTY " + startPutStrike + " PE | Expiry "
+							+ bNSellingExpiryDate[i]);
+				}
+				startPutStrike = startPutStrike + 100;
+			}
+		}
+		System.out.println("Not Found : NO BANK NIFTY GAP UP PE Call Today");
+		return "";
+	}
+
+	private String getBankNiftySellingGapDownCallData(BreezeConnect breezeConnect, int callEndStrike,
+			String strTodaysDate, String strFromDate, String strToDate, String[] bNSellingExpiryDate)
+			throws JsonMappingException, JsonProcessingException {
+
+		for (int i = 0; i <= 3; i++) {
+
+			int startCallStrike = callEndStrike + 900;
+			for (int strikeIncrement = 1; strikeIncrement <= 10; strikeIncrement++) {
+
+				double minimumPremium = startCallStrike * CommonConstants.BankNiftyMinimumPremium;
+
+				NseEntity nseEntity = breezeConnect.getHistoricalData(CommonConstants.fiveMinute, strTodaysDate,
+						strTodaysDate, CommonConstants.BANKNIFTY, CommonConstants.NFO, CommonConstants.OPTIONS,
+						bNSellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.CALL,
+						String.valueOf(startCallStrike));
+
+				if (nseEntity != null && nseEntity.getObito() != null) {
+					List<NseValues> obito = nseEntity.getObito();
+
+					double low = obito.get(0).getLow();
+
+					if (low > obito.get(1).getLow()) {
+						low = obito.get(1).getLow();
+					}
+					if (low > obito.get(2).getLow()) {
+						low = obito.get(2).getLow();
+					}
+
+					if (low > minimumPremium) {
+
+						NseEntity nseEntity1 = breezeConnect.getHistoricalData(CommonConstants.DAY, strFromDate,
+								strToDate, CommonConstants.BANKNIFTY, CommonConstants.NFO, CommonConstants.OPTIONS,
+								bNSellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.CALL,
+								String.valueOf(startCallStrike));
+
+						List<NseValues> pain = nseEntity1.getObito();
+
+						double two2DHH = (pain.get(0).getHigh() > pain.get(1).getHigh()) ? pain.get(0).getHigh()
+								: pain.get(1).getHigh();
+
+						double entry = low * CommonConstants.BankNiftyEntry;
+						double target = entry * CommonConstants.BankNiftyTarget;
+						double msl = entry * CommonConstants.BankNiftyMSL;
+						double tsl = two2DHH * CommonConstants.BankNiftyTSL;
+
+						double stoploss = (msl < tsl) ? msl : tsl;
+
+						System.out.println("\n\nOPTION SELLING - BANK NIFTY GAP DOWN CE");
+						System.out.println("BANK NIFTY CE :" + startCallStrike);
+						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
+						System.out.println("Entry    : " + entry);
+						System.out.println("Target   : " + target);
+						System.out.println("Stoploss : " + stoploss);
+						System.out.println("MSL      : " + msl);
+						System.out.println("TSL      : " + tsl);
+						
+						return "";
+					}
+
+				} else {
+					System.out.println("NO Data found for BANK NIFTY " + startCallStrike + " CE | Expiry "
+							+ bNSellingExpiryDate[i]);
+				}
+				startCallStrike = startCallStrike - 100;
+			}
+		}
+		System.out.println("Not Found : NO BANK NIFTY GAP DOWN CE Call Today");
 		return "";
 	}
 
