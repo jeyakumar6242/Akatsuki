@@ -1,8 +1,6 @@
 package trading.api.stocks;
 
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -27,8 +25,6 @@ public class NiftyOptionSelling {
 				CommonConstants.NIFTY, CommonConstants.NSE, "", "", "", "");
 
 		NiftyOptionSellingCalculations(breezeConnect, nseEntity, strFromDate, strToDate, niftySellingExpiryDate);
-
-		System.out.println("-----------------------------");
 		return null;
 	}
 
@@ -71,18 +67,12 @@ public class NiftyOptionSelling {
 						niftySellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.CALL,
 						String.valueOf(startCallStrike));
 
-				// System.out.println(nseEntity);
-
 				if (nseEntity != null && nseEntity.getObito() != null && nseEntity.getObito().size() == 2) {
 					List<NseValues> obito = nseEntity.getObito();
 
 					double two2DLL = (obito.get(0).getLow() < obito.get(1).getLow()) ? obito.get(0).getLow()
 							: obito.get(1).getLow();
-
-					// System.out.println("Expiry : " +expiryDate+ " | Strike price:
-					// "+startCallStrike + " | Minimum Premium: " + minimumPremium+ " | 2DLL: "+
-					// two2DLL);
-
+					
 					if (two2DLL > minimumPremium) {
 
 						double two2DHH = (obito.get(0).getHigh() > obito.get(1).getHigh()) ? obito.get(0).getHigh()
@@ -95,17 +85,14 @@ public class NiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
-						System.out.println("\n\nNIFTY CALL OPTION SELLING");
-						System.out.println("NIFTY CE " + startCallStrike);
-						System.out.println(
-								"Expiry   : " + niftySellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex);
+						System.out.println("\n\nOPTION SELLING - NIFTY CE");
+						System.out.println("NIFTY CE : " + startCallStrike);
+						System.out.println("Expiry   : " + niftySellingExpiryDate[i]);
 						System.out.println("Entry    : " + Math.round(entry));
 						System.out.println("Target   : " + Math.round(target));
 						System.out.println("Stoploss : " + Math.round(stoploss));
 						System.out.println("MSL      : " + Math.round(msl));
 						System.out.println("TSL      : " + Math.round(tsl));
-						System.out.println(obito.get(0).getLow() + "     " + obito.get(1).getLow() + "    "
-								+ (callEndStrike + 450) + "   " + minimumPremium);
 
 						return "";
 					}
@@ -136,17 +123,11 @@ public class NiftyOptionSelling {
 						niftySellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.PUT,
 						String.valueOf(startPutStrike));
 
-				// System.out.println(nseEntity);
-
 				if (nseEntity != null && nseEntity.getObito() != null && nseEntity.getObito().size() == 2) {
 					List<NseValues> obito = nseEntity.getObito();
 
 					double two2DLL = (obito.get(0).getLow() < obito.get(1).getLow()) ? obito.get(0).getLow()
 							: obito.get(1).getLow();
-
-					// System.out.println("Expiry : " +expiryDate+ " | Strike price:
-					// "+startPutStrike + " | Minimum Premium: " + Math.round(minimumPremium)+ " |
-					// 2DLL: "+ Math.round(two2DLL) );
 
 					if (two2DLL > minimumPremium) {
 
@@ -160,23 +141,20 @@ public class NiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
-						System.out.println("\n\nNIFTY PUT OPTION SELLING");
-						System.out.println("NIFTY PE " + startPutStrike);
-						System.out.println(
-								"Expiry   : " + niftySellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex);
+						System.out.println("\n\nOPTION SELLING - NIFTY PE");
+						System.out.println("NIFTY PE : " + startPutStrike);
+						System.out.println("Expiry   : " + niftySellingExpiryDate[i]);
 						System.out.println("Entry    : " + Math.round(entry));
 						System.out.println("Target   : " + Math.round(target));
 						System.out.println("Stoploss : " + Math.round(stoploss));
 						System.out.println("MSL      : " + Math.round(msl));
 						System.out.println("TSL      : " + Math.round(tsl));
-						System.out.println(obito.get(0).getLow() + "     " + obito.get(1).getLow() + "    "
-								+ (putEndStrike - 450) + "   " + minimumPremium);
 
 						return "";
 					}
 				} else {
 					System.out.println(
-							"NO Data found for NIFTY " + startPutStrike + " CE | Expiry " + niftySellingExpiryDate[i]);
+							"NO Data found for NIFTY " + startPutStrike + " PE | Expiry " + niftySellingExpiryDate[i]);
 				}
 				startPutStrike = startPutStrike + 50;
 			}
@@ -288,10 +266,9 @@ public class NiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
-						System.out.println("\n\nNIFTY GAP UP PUT OPTION SELLING");
-						System.out.println("NIFTY PE " + startPutStrike);
-						System.out.println(
-								"Expiry   : " + niftySellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex);
+						System.out.println("\n\nOPTION SELLING - NIFTY GAP UP PE");
+						System.out.println("NIFTY PE : " + startPutStrike);
+						System.out.println("Expiry   : " + niftySellingExpiryDate[i]);
 					/*	System.out.println("Entry    : " + Math.round(entry));
 						System.out.println("Target   : " + Math.round(target));
 						System.out.println("Stoploss : " + Math.round(stoploss));
@@ -308,7 +285,7 @@ public class NiftyOptionSelling {
 					}
 				} else {
 					System.out.println(
-							"NO Data found for NIFTY " + startPutStrike + " CE | Expiry " + niftySellingExpiryDate[i]);
+							"NO Data found for NIFTY " + startPutStrike + " PE | Expiry " + niftySellingExpiryDate[i]);
 				}
 				startPutStrike = startPutStrike + 50;
 			}
@@ -333,8 +310,6 @@ public class NiftyOptionSelling {
 						strTodaysDate, CommonConstants.NIFTY, CommonConstants.NFO, CommonConstants.OPTIONS,
 						niftySellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.CALL,
 						String.valueOf(startCallStrike));
-
-				// System.out.println(nseEntity);
 
 				if (nseEntity != null && nseEntity.getObito() != null) {
 					List<NseValues> obito = nseEntity.getObito();
@@ -367,10 +342,9 @@ public class NiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
-						System.out.println("\n\nNIFTY GAP DOWN CALL OPTION SELLING");
+						System.out.println("\n\nOPTION SELLING - NIFTY GAP DOWN CE");
 						System.out.println("NIFTY CE " + startCallStrike);
-						System.out.println(
-								"Expiry   : " + niftySellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex);
+						System.out.println("Expiry   : " + niftySellingExpiryDate[i]);
 						System.out.println("Entry    : " + entry);
 						System.out.println("Target   : " + target);
 						System.out.println("Stoploss : " + stoploss);

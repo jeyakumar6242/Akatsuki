@@ -27,35 +27,9 @@ public class NiftyFutures {
 				CommonConstants.NIFTY, CommonConstants.NFO, CommonConstants.FUTURES, expiryDate, "", "");
 
 		NiftyCalculations(nseEntity);
-
-		System.out.println("-----------------------------");
 		return null;
 	}
 	
-	//GAP UP
-	public String getNiftyFutDataGapUp(BreezeConnect breezeConnect, String fromDate, String toDate,
-			String todaysDate, String niftyFutExpiryDate) throws ParseException, JsonMappingException, JsonProcessingException {
-
-		String strFromDate = fromDate + "T" + CommonConstants.fromDateISOIndex;
-		String strToDate = toDate + "T" + CommonConstants.toDateISOIndex;
-		
-		String strTodaysFromDate = todaysDate + "T" + CommonConstants.todaysFromDateISOIndex;
-		String strTodaysToDate = todaysDate + "T" + CommonConstants.todaysToDateISOIndex;
-		
-		String expiryDate = niftyFutExpiryDate + "T" + CommonConstants.toDateISOIndex;
-
-		NseEntity nseEntity = breezeConnect.getHistoricalData(CommonConstants.DAY, strFromDate, strToDate,
-				CommonConstants.NIFTY, CommonConstants.NFO, CommonConstants.FUTURES, expiryDate, "", "");
-		
-		NseEntity nseEntityGapUp = breezeConnect.getHistoricalData(CommonConstants.fiveMinute, strTodaysFromDate, strTodaysToDate,
-				CommonConstants.NIFTY, CommonConstants.NFO, CommonConstants.FUTURES, expiryDate, "", "");
-		
-		NiftyCalculations(nseEntity);
-
-		return null;
-	}
-	
-
 	private void NiftyCalculations(NseEntity nseEntity) {
 
 		if (nseEntity.getObito().size() == 2) {
@@ -80,7 +54,7 @@ public class NiftyFutures {
 					(two2DHH * CommonConstants.niftyFutBuyEntry));
 			float sellAfterTargetStopLoss = Math.min(sellEntry, (two2DHH * CommonConstants.niftyFutBuyEntry));
 
-			System.out.println("\n\nNIFTY FUTURES");
+			System.out.println("\n\nFUTURES - NIFTY");
 			System.out.println("Buy Entry  : " + Math.round(buyEntry));
 			System.out.println("Buy Target : " + Math.round(buyTarget));
 			System.out.println("StopLoss 1 : " + Math.round(buyBeforeTargetStopLoss));

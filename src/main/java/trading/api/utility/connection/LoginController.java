@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import trading.api.constants.CommonConstants;
-import trading.api.entity.NseEntity;
 import trading.api.stocks.BankNiftyFutures;
 import trading.api.stocks.BankNiftyOptionSelling;
 import trading.api.stocks.NiftyFutures;
@@ -43,7 +41,7 @@ public class LoginController {
 				+ URLEncoder.encode(apiKey, StandardCharsets.UTF_8));
 
 		// Generate Session 
-		breezeConnect.generateSession(secretKey, "37119461");
+		breezeConnect.generateSession(secretKey, "37121023");
 
 		//Format Year-Month-Date
 		String fromDate = "2024-03-13";
@@ -67,15 +65,17 @@ public class LoginController {
 		bNSellingExpiryDate[2] = "2024-04-03";
 		bNSellingExpiryDate[3] = "2024-04-10";
 			
-	//	niftyFutures.getNiftyFutData(breezeConnect, fromDate, toDate, niftyFutExpiryDate);
-	//	niftyOptionSelling.getNiftyOptionSellingData(breezeConnect, fromDate, toDate, niftySellingExpiryDate);
+		niftyFutures.getNiftyFutData(breezeConnect, fromDate, toDate, niftyFutExpiryDate);
+		niftyOptionSelling.getNiftyOptionSellingData(breezeConnect, fromDate, toDate, niftySellingExpiryDate);
 		
-	//	bankNiftyFutures.getBankNiftyFutData(breezeConnect, fromDate, toDate, bNFutExpiryDate);
-	//	bankNiftyOptionSelling.getBankNiftyOptionSellingData(breezeConnect, fromDate, toDate, bNSellingExpiryDate);
+		bankNiftyFutures.getBankNiftyFutData(breezeConnect, fromDate, toDate, bNFutExpiryDate);
+		bankNiftyOptionSelling.getBankNiftyOptionSellingData(breezeConnect, fromDate, toDate, bNSellingExpiryDate);
 		
 		String todaysDate = "2024-03-15";
 		
-		niftyFutures.getNiftyFutDataGapUp(breezeConnect, fromDate, toDate, todaysDate, niftyFutExpiryDate);
+		niftyOptionSelling.getNiftyGapUpDown(breezeConnect, todaysDate, fromDate, toDate, niftySellingExpiryDate);
+		bankNiftyOptionSelling.getBnGapUpDown(breezeConnect, todaysDate, fromDate, toDate, bNSellingExpiryDate);
+		
 
 	}
 }

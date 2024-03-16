@@ -26,8 +26,6 @@ public class BankNiftyFutures {
 				CommonConstants.BANKNIFTY, CommonConstants.NFO, CommonConstants.FUTURES, expiryDate, "", "");
 
 		BankNiftyCalculations(nseEntity);
-		System.out.println("-----------------------------");
-
 	}
 
 	private void BankNiftyCalculations(NseEntity nseEntity) {
@@ -54,7 +52,7 @@ public class BankNiftyFutures {
 					(two2DHH * CommonConstants.BankNiftyFutBuyEntry));
 			double sellAfterTargetStopLoss = Math.min(sellEntry, (two2DHH * CommonConstants.BankNiftyFutBuyEntry));
 
-			System.out.println("\n\nBANK NIFTY FUTURES");
+			System.out.println("\n\nFUTURES - BANK NIFTY");
 			System.out.println("Buy Entry  : " + Math.round(buyEntry));
 			System.out.println("Buy Target : " + Math.round(buyTarget));
 			System.out.println("StopLoss 1 : " + Math.round(buyBeforeTargetStopLoss));
