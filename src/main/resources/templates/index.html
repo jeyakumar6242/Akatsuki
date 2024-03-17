@@ -4,6 +4,10 @@
 <body>
 
 	<form action="login" method="post">
+		
+		<label for="sessionKey">Enter the key : </label>
+		<input type="text" id="sessionKey" name="sessionKey"><br><br>
+		
 		<label for="todaysDate">Todays Date :</label>
 		<input type="date" id="todaysDate" name="todaysDate"><br><br>
 		<label for="fromDate">Day 1 :</label>
@@ -15,10 +19,25 @@
 		<input type="date" id="niftyFutExpiryDate" name="niftyFutExpiryDate"><br><br>
 		<label for="bNFutExpiryDate">Bank Nifty Future Expiry Date :</label>
 		<input type="date" id="bNFutExpiryDate" name="bNFutExpiryDate"><br><br>
-
-		<p><label for="w3review"></label>Review of W3Schools:</p>
-		<textarea id="w3review" name="w3review" rows="4" cols="50" th:text="${userInput}"></textarea>
-		<br>
+		
+		<label for="niftySellingExpiryDate0">Nifty Week 1 Expiry Date :</label>
+		<input type="date" id="niftySellingExpiryDate0" name="niftySellingExpiryDate0"><br><br>
+		<label for="niftySellingExpiryDate1">Nifty Week 2 Expiry Date :</label>
+		<input type="date" id="niftySellingExpiryDate1" name="niftySellingExpiryDate1"><br><br>
+		<label for="niftySellingExpiryDate2">Nifty Week 3 Expiry Date :</label>
+		<input type="date" id="niftySellingExpiryDate1" name="niftySellingExpiryDate2"><br><br>
+		<label for="niftySellingExpiryDate3">Nifty Week 4 Expiry Date :</label>
+		<input type="date" id="niftySellingExpiryDate1" name="niftySellingExpiryDate3"><br><br>
+		
+		<label for="bNSellingExpiryDate0">Bank Nifty Week 1 Expiry Date :</label>
+		<input type="date" id="bNSellingExpiryDate0" name="bNSellingExpiryDate0"><br><br>
+		<label for="bNSellingExpiryDate1">Bank Nifty Week 2 Expiry Date :</label>
+		<input type="date" id="bNSellingExpiryDate1" name="bNSellingExpiryDate1"><br><br>
+		<label for="bNSellingExpiryDate2">Bank Nifty Week 3 Expiry Date :</label>
+		<input type="date" id="bNSellingExpiryDate2" name="bNSellingExpiryDate2"><br><br>
+		<label for="bNSellingExpiryDate3">Bank Nifty Week 4 Expiry Date :</label>
+		<input type="date" id="bNSellingExpiryDate3" name="bNSellingExpiryDate3"><br><br>
+		
 		<input type="submit" value="Submit">
 	</form>
 

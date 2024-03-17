@@ -1,7 +1,9 @@
 package trading.api.stocks;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,10 +12,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import trading.api.constants.CommonConstants;
 import trading.api.entity.NseEntity;
 import trading.api.entity.NseValues;
+import trading.api.model.OutputResult;
 import trading.api.utility.connection.BreezeConnect;
 
 @Component
 public class BankNiftyOptionSelling {
+
+	@Autowired
+	OutputResult outputResult;
+
+	private static final DecimalFormat decfor = new DecimalFormat("0.00");
 
 	public void getBankNiftyOptionSellingData(BreezeConnect breezeConnect, String fromDate, String toDate,
 			String[] bNSellingExpiryDate) throws JsonMappingException, JsonProcessingException {
@@ -31,7 +39,7 @@ public class BankNiftyOptionSelling {
 			String strFromDate, String strToDate, String[] bNSellingExpiryDate)
 			throws JsonMappingException, JsonProcessingException {
 
-		if (nseEntity.getObito().size() == 2) {
+		if (nseEntity != null && nseEntity.getObito() != null && nseEntity.getObito().size() == 2) {
 			List<NseValues> obito = nseEntity.getObito();
 
 			double two2DHH = (obito.get(0).getHigh() > obito.get(1).getHigh()) ? obito.get(0).getHigh()
@@ -68,8 +76,6 @@ public class BankNiftyOptionSelling {
 						bNSellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.CALL,
 						String.valueOf(startCallStrike));
 
-				// System.out.println(nseEntity);
-
 				if (nseEntity != null && nseEntity.getObito() != null && nseEntity.getObito().size() == 2) {
 					List<NseValues> obito = nseEntity.getObito();
 
@@ -87,16 +93,23 @@ public class BankNiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
+						String s = "\nBANK NIFTY CE : " + startCallStrike;
+						s = s + "\nExpiry   : " + bNSellingExpiryDate[i];
+						s = s + "\nEntry    : " + decfor.format(entry);
+						s = s + "\nTarget   : " + decfor.format(target);
+						s = s + "\nStoploss : " + decfor.format(stoploss);
+						s = s + "\nMSL      : " + decfor.format(msl);
+						s = s + "\nTSL      : " + decfor.format(tsl);
+						outputResult.setSellingBankNiftyCeEntry(s);
+
 						System.out.println("\n\nOPTION SELLING - BANK NIFTY CE");
-						System.out.println("BANK NIFTY CE :" + startCallStrike);
+						System.out.println("NIFTY CE : " + startCallStrike);
 						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
-						System.out.println("Entry    : " + Math.round(entry));
-						System.out.println("Target   : " + Math.round(target));
-						System.out.println("Stoploss : " + Math.round(stoploss));
-						System.out.println("MSL      : " + Math.round(msl));
-						System.out.println("TSL      : " + Math.round(tsl));
-						// System.out.println(obito.get(0).getLow() + " " + obito.get(1).getLow() + " "
-						// + (callEndStrike + 900) + " " + minimumPremium);
+						System.out.println("Entry    : " + decfor.format(entry));
+						System.out.println("Target   : " + decfor.format(target));
+						System.out.println("Stoploss : " + decfor.format(stoploss));
+						System.out.println("MSL      : " + decfor.format(msl));
+						System.out.println("TSL      : " + decfor.format(tsl));
 
 						return "";
 					}
@@ -146,14 +159,24 @@ public class BankNiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
+						String s = "\nBANK NIFTY PE : " + startPutStrike;
+						s = s + "\nExpiry   : " + bNSellingExpiryDate[i];
+						s = s + "\nEntry    : " + decfor.format(entry);
+						s = s + "\nTarget   : " + decfor.format(target);
+						s = s + "\nStoploss : " + decfor.format(stoploss);
+						s = s + "\nMSL      : " + decfor.format(msl);
+						s = s + "\nTSL      : " + decfor.format(tsl);
+						outputResult.setSellingBankNiftyPeEntry(s);
+
 						System.out.println("\n\nOPTION SELLING - BANK NIFTY PE");
-						System.out.println("BANK NIFTY PE : " + startPutStrike);
+						System.out.println("NIFTY CE : " + startPutStrike);
 						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
-						System.out.println("Entry    : " + Math.round(entry));
-						System.out.println("Target   : " + Math.round(target));
-						System.out.println("Stoploss : " + Math.round(stoploss));
-						System.out.println("MSL      : " + Math.round(msl));
-						System.out.println("TSL      : " + Math.round(tsl));
+						System.out.println("Entry    : " + decfor.format(entry));
+						System.out.println("Target   : " + decfor.format(target));
+						System.out.println("Stoploss : " + decfor.format(stoploss));
+						System.out.println("MSL      : " + decfor.format(msl));
+						System.out.println("TSL      : " + decfor.format(tsl));
+
 						return "";
 					}
 				} else {
@@ -348,7 +371,7 @@ public class BankNiftyOptionSelling {
 						System.out.println("Stoploss : " + stoploss);
 						System.out.println("MSL      : " + msl);
 						System.out.println("TSL      : " + tsl);
-						
+
 						return "";
 					}
 

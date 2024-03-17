@@ -2,6 +2,7 @@ package trading.api.stocks;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,10 +11,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import trading.api.constants.CommonConstants;
 import trading.api.entity.NseEntity;
 import trading.api.entity.NseValues;
+import trading.api.model.OutputResult;
 import trading.api.utility.connection.BreezeConnect;
 
 @Component
 public class BankNiftyFutures {
+
+	@Autowired
+	OutputResult outputResult;
 
 	public void getBankNiftyFutData(BreezeConnect breezeConnect, String fromDate, String toDate, String bNFutExpiryDate)
 			throws JsonMappingException, JsonProcessingException {
@@ -30,7 +35,7 @@ public class BankNiftyFutures {
 
 	private void BankNiftyCalculations(NseEntity nseEntity) {
 
-		if (nseEntity.getObito().size() == 2) {
+		if (nseEntity != null && nseEntity.getObito() != null && nseEntity.getObito().size() == 2) {
 			List<NseValues> obito = nseEntity.getObito();
 
 			// Step 3
@@ -51,6 +56,18 @@ public class BankNiftyFutures {
 			double sellBeforeTargetStopLoss = Math.min((sellEntry * CommonConstants.BankNiftyFutBuyTarget),
 					(two2DHH * CommonConstants.BankNiftyFutBuyEntry));
 			double sellAfterTargetStopLoss = Math.min(sellEntry, (two2DHH * CommonConstants.BankNiftyFutBuyEntry));
+
+			String s = "\nBuy Entry  : " + Math.round(buyEntry);
+			s = s + "\nBuy Target : " + Math.round(buyTarget);
+			s = s + "\nStopLoss 1 : " + Math.round(buyBeforeTargetStopLoss);
+			s = s + "\nStopLoss 2 : " + Math.round(buyAfterTargetStopLoss);
+			outputResult.setFuturesBankNiftyBuyEntry(s);
+
+			String s1 = "\nSell Entry  : " + Math.round(sellEntry);
+			s1 = s1 + "\nSell Target : " + Math.round(sellTarget);
+			s1 = s1 + "\nStopLoss 1  : " + Math.round(sellBeforeTargetStopLoss);
+			s1 = s1 + "\nStopLoss 2  : " + Math.round(sellAfterTargetStopLoss);
+			outputResult.setFuturesBankNiftySellEntry(s1);
 
 			System.out.println("\n\nFUTURES - BANK NIFTY");
 			System.out.println("Buy Entry  : " + Math.round(buyEntry));

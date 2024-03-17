@@ -1,10 +1,17 @@
 package trading.api.utility.connection;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-import io.socket.emitter.Emitter.Listener;
-import io.socket.engineio.client.transports.WebSocket;
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Objects;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -18,17 +25,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import trading.api.entity.*;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+import io.socket.emitter.Emitter.Listener;
+import io.socket.engineio.client.transports.WebSocket;
 import trading.api.utility.Config;
 import trading.api.utility.TradingUtility;
-import trading.api.utility.http.*;
+import trading.api.utility.http.HttpGetWithEntity;
+import trading.api.utility.http.OnTickEventListener;
 
 public class BreezeConnect extends TradingUtility {
 

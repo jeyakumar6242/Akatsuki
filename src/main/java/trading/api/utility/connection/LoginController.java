@@ -65,16 +65,16 @@ public class LoginController {
 		bNSellingExpiryDate[2] = "2024-04-03";
 		bNSellingExpiryDate[3] = "2024-04-10";
 			
-		niftyFutures.getNiftyFutData(breezeConnect, fromDate, toDate, niftyFutExpiryDate);
-		niftyOptionSelling.getNiftyOptionSellingData(breezeConnect, fromDate, toDate, niftySellingExpiryDate);
+	//	niftyFutures.getNiftyFutData(breezeConnect, fromDate, toDate, niftyFutExpiryDate);
+	//	niftyOptionSelling.getNiftyOptionSellingData(breezeConnect, fromDate, toDate, niftySellingExpiryDate);
 		
-		bankNiftyFutures.getBankNiftyFutData(breezeConnect, fromDate, toDate, bNFutExpiryDate);
-		bankNiftyOptionSelling.getBankNiftyOptionSellingData(breezeConnect, fromDate, toDate, bNSellingExpiryDate);
+	//	bankNiftyFutures.getBankNiftyFutData(breezeConnect, fromDate, toDate, bNFutExpiryDate);
+	//	bankNiftyOptionSelling.getBankNiftyOptionSellingData(breezeConnect, fromDate, toDate, bNSellingExpiryDate);
 		
 		String todaysDate = "2024-03-15";
 		
-		niftyOptionSelling.getNiftyGapUpDown(breezeConnect, todaysDate, fromDate, toDate, niftySellingExpiryDate);
-		bankNiftyOptionSelling.getBnGapUpDown(breezeConnect, todaysDate, fromDate, toDate, bNSellingExpiryDate);
+	//	niftyOptionSelling.getNiftyGapUpDown(breezeConnect, todaysDate, fromDate, toDate, niftySellingExpiryDate);
+	//	bankNiftyOptionSelling.getBnGapUpDown(breezeConnect, todaysDate, fromDate, toDate, bNSellingExpiryDate);
 		
 
 	}
