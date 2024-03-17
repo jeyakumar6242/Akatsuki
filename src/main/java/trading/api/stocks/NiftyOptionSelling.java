@@ -202,8 +202,6 @@ public class NiftyOptionSelling {
 
 		NiftyOptionSellingGapUpDownCalculations(breezeConnect, nseEntity, strTodaysDate, strFromDate, strToDate,
 				niftySellingExpiryDate);
-
-		System.out.println("-----------------------------");
 	}
 
 	private void NiftyOptionSellingGapUpDownCalculations(BreezeConnect breezeConnect, NseEntity nseEntity,
@@ -293,23 +291,24 @@ public class NiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
+						String s = "\nNIFTY PE : " + startPutStrike;
+						s = s + "\nExpiry   : " + niftySellingExpiryDate[i];
+						s = s + "\nEntry    : " + decfor.format(entry);
+						s = s + "\nTarget   : " + decfor.format(target);
+						s = s + "\nStoploss : " + decfor.format(stoploss);
+						s = s + "\nMSL      : " + decfor.format(msl);
+						s = s + "\nTSL      : " + decfor.format(tsl);
+						outputResult.setGapUpSellingNiftyPeEntry(s);
+
 						System.out.println("\n\nOPTION SELLING - NIFTY GAP UP PE");
-						System.out.println("NIFTY PE : " + startPutStrike);
+						System.out.println("NIFTY CE : " + startPutStrike);
 						System.out.println("Expiry   : " + niftySellingExpiryDate[i]);
-						/*
-						 * System.out.println("Entry    : " + Math.round(entry));
-						 * System.out.println("Target   : " + Math.round(target));
-						 * System.out.println("Stoploss : " + Math.round(stoploss));
-						 * System.out.println("MSL      : " + Math.round(msl));
-						 * System.out.println("TSL      : " + Math.round(tsl));
-						 */
-
-						System.out.println("Entry    : " + entry);
-						System.out.println("Target   : " + target);
-						System.out.println("Stoploss : " + stoploss);
-						System.out.println("MSL      : " + msl);
-						System.out.println("TSL      : " + tsl);
-
+						System.out.println("Entry    : " + decfor.format(entry));
+						System.out.println("Target   : " + decfor.format(target));
+						System.out.println("Stoploss : " + decfor.format(stoploss));
+						System.out.println("MSL      : " + decfor.format(msl));
+						System.out.println("TSL      : " + decfor.format(tsl));
+						
 						return "";
 					}
 				} else {
@@ -371,14 +370,24 @@ public class NiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
+						String s = "\nNIFTY CE : " + startCallStrike;
+						s = s + "\nExpiry   : " + niftySellingExpiryDate[i];
+						s = s + "\nEntry    : " + decfor.format(entry);
+						s = s + "\nTarget   : " + decfor.format(target);
+						s = s + "\nStoploss : " + decfor.format(stoploss);
+						s = s + "\nMSL      : " + decfor.format(msl);
+						s = s + "\nTSL      : " + decfor.format(tsl);
+						outputResult.setGapDownSellingNiftyCeEntry(s);;
+
 						System.out.println("\n\nOPTION SELLING - NIFTY GAP DOWN CE");
-						System.out.println("NIFTY CE " + startCallStrike);
+						System.out.println("NIFTY CE : " + startCallStrike);
 						System.out.println("Expiry   : " + niftySellingExpiryDate[i]);
-						System.out.println("Entry    : " + entry);
-						System.out.println("Target   : " + target);
-						System.out.println("Stoploss : " + stoploss);
-						System.out.println("MSL      : " + msl);
-						System.out.println("TSL      : " + tsl);
+						System.out.println("Entry    : " + decfor.format(entry));
+						System.out.println("Target   : " + decfor.format(target));
+						System.out.println("Stoploss : " + decfor.format(stoploss));
+						System.out.println("MSL      : " + decfor.format(msl));
+						System.out.println("TSL      : " + decfor.format(tsl));
+						
 						return "";
 					}
 

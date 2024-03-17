@@ -37,6 +37,11 @@ public class IndexController {
 		return "index";
 	}
 
+	@GetMapping("/gapupdown")
+	public String gapUpDown() {
+		return "gapupdown";
+	}
+
 	@PostMapping("/login")
 	public String login(Model model, @ModelAttribute UserInput userInput) throws Exception {
 
@@ -50,10 +55,12 @@ public class IndexController {
 
 		System.out.println("https://api.icicidirect.com/apiuser/login?api_key="
 				+ URLEncoder.encode(apiKey, StandardCharsets.UTF_8));
-
-		// Generate Session
-		breezeConnect.generateSession(secretKey, userInput.getSessionKey());
-
+		
+		if (userInput != null && !userInput.getSessionKey().isBlank()) {
+			// Generate Session
+			breezeConnect.generateSession(secretKey, userInput.getSessionKey());
+		}
+		
 		// Format Year-Month-Date
 		String todaysDate = userInput.getTodaysDate();
 		String fromDate = userInput.getFromDate();
@@ -106,6 +113,66 @@ public class IndexController {
 		model.addAttribute("h", outputResult.getSellingBankNiftyPeEntry());
 
 		return "result";
+	}
+
+	@PostMapping("/logingapupdown")
+	public String loginGapUpDown(Model model, @ModelAttribute UserInput userInput) throws Exception {
+
+		// String userId = "8667648336";
+		String secretKey = "VB691uN4h06Gs122843(148955681DR4";
+		String apiKey = "4H51704z6Y4_25!427t796e57418$q3F";
+
+		BreezeConnect breezeConnect = new BreezeConnect(apiKey);
+
+		// https://api.icicidirect.com/apiuser/login?api_key=4H51704z6Y4_25!427t796e57418$q3F
+
+		System.out.println("https://api.icicidirect.com/apiuser/login?api_key="
+				+ URLEncoder.encode(apiKey, StandardCharsets.UTF_8));
+
+		if (userInput != null && !userInput.getSessionKey().isBlank()) {
+			// Generate Session
+			breezeConnect.generateSession(secretKey, userInput.getSessionKey());
+		}
+
+		// Format Year-Month-Date
+		String todaysDate = userInput.getTodaysDate();
+		String fromDate = userInput.getFromDate();
+		String toDate = userInput.getToDate();
+
+		String[] niftySellingExpiryDate = new String[4];
+		niftySellingExpiryDate[0] = userInput.getNiftySellingExpiryDate0();
+		niftySellingExpiryDate[1] = userInput.getNiftySellingExpiryDate1();
+		niftySellingExpiryDate[2] = userInput.getNiftySellingExpiryDate2();
+		niftySellingExpiryDate[3] = userInput.getNiftySellingExpiryDate3();
+
+		String[] bNSellingExpiryDate = new String[4];
+		bNSellingExpiryDate[0] = userInput.getBNSellingExpiryDate0();
+		bNSellingExpiryDate[1] = userInput.getBNSellingExpiryDate1();
+		bNSellingExpiryDate[2] = userInput.getBNSellingExpiryDate2();
+		bNSellingExpiryDate[3] = userInput.getBNSellingExpiryDate3();
+
+		if (userInput != null && !userInput.getSessionKey().isBlank() && !userInput.getFromDate().isBlank()
+				&& !userInput.getToDate().isBlank() && !userInput.getTodaysDate().isBlank()) {
+
+			if (!userInput.getNiftySellingExpiryDate0().isBlank() && !userInput.getNiftySellingExpiryDate1().isBlank()
+					&& !userInput.getNiftySellingExpiryDate2().isBlank()
+					&& !userInput.getNiftySellingExpiryDate3().isBlank()) {
+				niftyOptionSelling.getNiftyGapUpDown(breezeConnect, todaysDate, fromDate, toDate,
+						niftySellingExpiryDate);
+			}
+			if (!userInput.getBNSellingExpiryDate0().isBlank() && !userInput.getBNSellingExpiryDate1().isBlank()
+					&& !userInput.getBNSellingExpiryDate2().isBlank()
+					&& !userInput.getBNSellingExpiryDate3().isBlank()) {
+				bankNiftyOptionSelling.getBnGapUpDown(breezeConnect, todaysDate, fromDate, toDate, bNSellingExpiryDate);
+			}
+		}
+
+		model.addAttribute("a", outputResult.getGapUpSellingNiftyPeEntry());
+		model.addAttribute("b", outputResult.getGapUpSellingBankNiftyPeEntry());
+		model.addAttribute("c", outputResult.getGapDownSellingNiftyCeEntry());
+		model.addAttribute("d", outputResult.getGapDownSellingBankNiftyCeEntry());
+
+		return "gapupdown-result";
 	}
 
 }

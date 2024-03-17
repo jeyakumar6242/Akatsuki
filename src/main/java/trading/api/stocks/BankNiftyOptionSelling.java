@@ -261,8 +261,6 @@ public class BankNiftyOptionSelling {
 						bNSellingExpiryDate[i] + "T" + CommonConstants.toDateISOIndex, CommonConstants.PUT,
 						String.valueOf(startPutStrike));
 
-				// System.out.println(nseEntity);
-
 				if (nseEntity != null && nseEntity.getObito() != null) {
 					List<NseValues> obito = nseEntity.getObito();
 
@@ -294,14 +292,23 @@ public class BankNiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
-						System.out.println("\n\nOPTION SELLING - BANK NIFTY PE GAP UP");
-						System.out.println("BANK NIFTY PE : " + startPutStrike);
+						String s = "\nBANK NIFTY PE : " + startPutStrike;
+						s = s + "\nExpiry   : " + bNSellingExpiryDate[i];
+						s = s + "\nEntry    : " + decfor.format(entry);
+						s = s + "\nTarget   : " + decfor.format(target);
+						s = s + "\nStoploss : " + decfor.format(stoploss);
+						s = s + "\nMSL      : " + decfor.format(msl);
+						s = s + "\nTSL      : " + decfor.format(tsl);
+						outputResult.setGapUpSellingBankNiftyPeEntry(s);
+
+						System.out.println("\n\nOPTION SELLING - BANK NIFTY GAP UP PE");
+						System.out.println("NIFTY CE : " + startPutStrike);
 						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
-						System.out.println("Entry    : " + entry);
-						System.out.println("Target   : " + target);
-						System.out.println("Stoploss : " + stoploss);
-						System.out.println("MSL      : " + msl);
-						System.out.println("TSL      : " + tsl);
+						System.out.println("Entry    : " + decfor.format(entry));
+						System.out.println("Target   : " + decfor.format(target));
+						System.out.println("Stoploss : " + decfor.format(stoploss));
+						System.out.println("MSL      : " + decfor.format(msl));
+						System.out.println("TSL      : " + decfor.format(tsl));
 
 						return "";
 					}
@@ -363,14 +370,23 @@ public class BankNiftyOptionSelling {
 
 						double stoploss = (msl < tsl) ? msl : tsl;
 
+						String s = "\nBANK NIFTY CE : " + startCallStrike;
+						s = s + "\nExpiry   : " + bNSellingExpiryDate[i];
+						s = s + "\nEntry    : " + decfor.format(entry);
+						s = s + "\nTarget   : " + decfor.format(target);
+						s = s + "\nStoploss : " + decfor.format(stoploss);
+						s = s + "\nMSL      : " + decfor.format(msl);
+						s = s + "\nTSL      : " + decfor.format(tsl);
+						outputResult.setGapDownSellingBankNiftyCeEntry(s);
+
 						System.out.println("\n\nOPTION SELLING - BANK NIFTY GAP DOWN CE");
-						System.out.println("BANK NIFTY CE :" + startCallStrike);
+						System.out.println("NIFTY CE : " + startCallStrike);
 						System.out.println("Expiry   : " + bNSellingExpiryDate[i]);
-						System.out.println("Entry    : " + entry);
-						System.out.println("Target   : " + target);
-						System.out.println("Stoploss : " + stoploss);
-						System.out.println("MSL      : " + msl);
-						System.out.println("TSL      : " + tsl);
+						System.out.println("Entry    : " + decfor.format(entry));
+						System.out.println("Target   : " + decfor.format(target));
+						System.out.println("Stoploss : " + decfor.format(stoploss));
+						System.out.println("MSL      : " + decfor.format(msl));
+						System.out.println("TSL      : " + decfor.format(tsl));
 
 						return "";
 					}

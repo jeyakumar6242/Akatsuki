@@ -28,4 +28,9 @@ public class OutputResult {
 	private String sellingBankNiftyCeEntry;
 	private String sellingBankNiftyPeEntry;
 	
+	private String gapDownSellingNiftyCeEntry;
+	private String gapUpSellingNiftyPeEntry;
+	private String gapDownSellingBankNiftyCeEntry;
+	private String gapUpSellingBankNiftyPeEntry;
+	
 }
