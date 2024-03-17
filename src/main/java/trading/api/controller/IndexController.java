@@ -80,6 +80,18 @@ public class IndexController {
 		bNSellingExpiryDate[1] = userInput.getBNSellingExpiryDate1();
 		bNSellingExpiryDate[2] = userInput.getBNSellingExpiryDate2();
 		bNSellingExpiryDate[3] = userInput.getBNSellingExpiryDate3();
+		
+
+		outputResult.setFuturesBankNiftyBuyEntry("");
+		outputResult.setFuturesBankNiftySellEntry("");
+		outputResult.setFuturesNiftyBuyEntry("");
+		outputResult.setFuturesNiftySellEntry("");
+		
+		outputResult.setSellingBankNiftyCeEntry("");
+		outputResult.setSellingBankNiftyPeEntry("");
+		outputResult.setSellingNiftyCeEntry("");
+		outputResult.setSellingNiftyPeEntry("");
+		
 
 		if (userInput != null && !userInput.getSessionKey().isBlank() && !userInput.getFromDate().isBlank()
 				&& !userInput.getToDate().isBlank()) {
@@ -101,7 +113,7 @@ public class IndexController {
 						bNSellingExpiryDate);
 			}
 		}
-
+		
 		model.addAttribute("a", outputResult.getFuturesNiftyBuyEntry());
 		model.addAttribute("b", outputResult.getFuturesNiftySellEntry());
 		model.addAttribute("c", outputResult.getFuturesBankNiftyBuyEntry());
@@ -151,6 +163,11 @@ public class IndexController {
 		bNSellingExpiryDate[2] = userInput.getBNSellingExpiryDate2();
 		bNSellingExpiryDate[3] = userInput.getBNSellingExpiryDate3();
 
+		outputResult.setGapDownSellingBankNiftyCeEntry("");
+		outputResult.setGapDownSellingNiftyCeEntry("");
+		outputResult.setGapUpSellingBankNiftyPeEntry("");
+		outputResult.setGapUpSellingNiftyPeEntry("");
+		
 		if (userInput != null && !userInput.getSessionKey().isBlank() && !userInput.getFromDate().isBlank()
 				&& !userInput.getToDate().isBlank() && !userInput.getTodaysDate().isBlank()) {
 
